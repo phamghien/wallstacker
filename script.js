@@ -1,10 +1,15 @@
 const grid = document.getElementById('grid');
 const scoreElement = document.getElementById('score');
 const messageElement = document.getElementById('message');
+const highScoreInputElement = document.getElementById('high-score-input');
+const playerNameInput = document.getElementById('player-name');
+const saveScoreButton = document.getElementById('save-score');
+const scoreboardElement = document.getElementById('scoreboard');
+const highScoresList = document.getElementById('high-scores-list');
 
-const GRID_WIDTH = 12; // 12 columns
-const BLOCK_WIDTH_PX = 35;
-const ROW_HEIGHT_PX = 40;
+const GRID_WIDTH = 10; // 10 columns
+const BLOCK_WIDTH_PX = 52.5;
+const ROW_HEIGHT_PX = 60;
 const INITIAL_BLOCKS = 4;
 
 let currentLevel = 0;
@@ -23,11 +28,13 @@ function init() {
     score = 0;
     speed = 200;
     gameActive = true;
-    previousRowPositions = Array.from({length: INITIAL_BLOCKS}, (_, i) => i + 4); // Start centered (12-4)/2 = 4
+    previousRowPositions = Array.from({length: INITIAL_BLOCKS}, (_, i) => i + (GRID_WIDTH - INITIAL_BLOCKS) / 2); // Start centered
     grid.innerHTML = '';
     grid.style.bottom = '0px';
     scoreElement.textContent = `Score: ${score}`;
     messageElement.style.display = 'none';
+    highScoreInputElement.style.display = 'none';
+    scoreboardElement.style.display = 'none';
     
     // Create first static row
     createStaticRow(previousRowPositions);
@@ -138,24 +145,82 @@ function stack() {
 
 function gameOver() {
     gameActive = false;
-    messageElement.innerHTML = `Game Over!<br>Score: ${score}<br>Click to Restart`;
-    messageElement.style.display = 'block';
+    clearInterval(interval);
+    
+    const highScores = getHighScores();
+    const isHighScore = highScores.length < 5 || score > highScores[highScores.length - 1].score;
+
+    if (isHighScore && score > 0) {
+        highScoreInputElement.style.display = 'block';
+        playerNameInput.focus();
+    } else {
+        showScoreboard();
+    }
 }
+
+function getHighScores() {
+    const scores = localStorage.getItem('highScores');
+    return scores ? JSON.parse(scores) : [];
+}
+
+function saveHighScore(name, score) {
+    let highScores = getHighScores();
+    highScores.push({ name, score });
+    highScores.sort((a, b) => b.score - a.score);
+    highScores = highScores.slice(0, 5);
+    localStorage.setItem('highScores', JSON.stringify(highScores));
+}
+
+function showScoreboard() {
+    const highScores = getHighScores();
+    highScoresList.innerHTML = '';
+    
+    if (highScores.length === 0) {
+        highScoresList.innerHTML = '<li>No high scores yet!</li>';
+    } else {
+        highScores.forEach(entry => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span>${entry.name}</span><span>${entry.score}</span>`;
+            highScoresList.appendChild(li);
+        });
+    }
+    
+    messageElement.style.display = 'none';
+    highScoreInputElement.style.display = 'none';
+    scoreboardElement.style.display = 'block';
+}
+
+saveScoreButton.addEventListener('click', () => {
+    const name = playerNameInput.value.trim() || 'Anonymous';
+    saveHighScore(name, score);
+    playerNameInput.value = '';
+    showScoreboard();
+});
+
+playerNameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        saveScoreButton.click();
+    }
+    e.stopPropagation(); // Prevent game from interpreting space/etc while typing
+});
 
 window.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
         if (gameActive) {
             stack();
-        } else {
+        } else if (scoreboardElement.style.display === 'block' || messageElement.style.display === 'block') {
             init();
         }
     }
 });
 
-window.addEventListener('click', () => {
+window.addEventListener('click', (e) => {
+    // Don't restart if clicking inside the high score input
+    if (highScoreInputElement.contains(e.target)) return;
+
     if (gameActive) {
         stack();
-    } else {
+    } else if (scoreboardElement.style.display === 'block' || messageElement.style.display === 'block') {
         init();
     }
 });
