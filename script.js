@@ -2,9 +2,9 @@ const grid = document.getElementById('grid');
 const scoreElement = document.getElementById('score');
 const messageElement = document.getElementById('message');
 
-const GRID_WIDTH = 12; // 12 columns of 25px each = 300px
-const BLOCK_WIDTH_PX = 25;
-const ROW_HEIGHT_PX = 30;
+const GRID_WIDTH = 12; // 12 columns
+const BLOCK_WIDTH_PX = 35;
+const ROW_HEIGHT_PX = 40;
 const INITIAL_BLOCKS = 4;
 
 let currentLevel = 0;
@@ -23,7 +23,7 @@ function init() {
     score = 0;
     speed = 200;
     gameActive = true;
-    previousRowPositions = Array.from({length: INITIAL_BLOCKS}, (_, i) => i + 4); // Start centered
+    previousRowPositions = Array.from({length: INITIAL_BLOCKS}, (_, i) => i + 4); // Start centered (12-4)/2 = 4
     grid.innerHTML = '';
     grid.style.bottom = '0px';
     scoreElement.textContent = `Score: ${score}`;
