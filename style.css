@@ -1,3 +1,10 @@
+
+
+@font-face {
+    font-family: 'PixelGame';
+    src: url('assets/pixelGame.otf') format('opentype');
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -7,7 +14,7 @@ body {
     height: 100vh;
     background-color: #222;
     color: white;
-    font-family: Arial, sans-serif;
+    font-family: 'PixelGame', Arial, sans-serif;
     overflow: hidden;
 }
 
@@ -55,7 +62,7 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
-    font-size: 20px;
+    font-size: 50px;
 }
 
 #message, #high-score-input, #scoreboard {
@@ -64,7 +71,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    font-size: 18px;
+    font-size: 30px;
     background: rgba(0, 0, 0, 0.85);
     padding: 20px;
     border-radius: 10px;
