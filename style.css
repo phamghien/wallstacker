@@ -22,9 +22,10 @@ body {
     position: relative;
     width: 525px;
     height: 700px;
-    background-image: url('assets/outline.png');
-    background-size: cover;
-    background-position: center;
+    background-image: url('assets/outline.png'), url('assets/sky.png');
+    background-position: bottom, top;
+    background-repeat: no-repeat, repeat;
+    background-size: contain, contain;
     border: 4px solid #555;
     overflow: hidden;
 }
@@ -40,14 +41,14 @@ body {
 
 .row {
     display: flex;
-    height: 60px;
+    height: 90px;
     width: 100%;
     position: relative;
 }
 
 .block {
     width: 52.5px;
-    height: 60px;
+    height: 90px;
     background-image: url('/assets/sage_block.png');
     background-size: cover;
     background-position: center;

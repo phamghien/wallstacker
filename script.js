@@ -9,7 +9,7 @@ const highScoresList = document.getElementById('high-scores-list');
 
 const GRID_WIDTH = 10; // 10 columns
 const BLOCK_WIDTH_PX = 52.5;
-const ROW_HEIGHT_PX = 60;
+const ROW_HEIGHT_PX = 90;
 const INITIAL_BLOCKS = 4;
 
 let currentLevel = 0;
@@ -31,6 +31,7 @@ function init() {
     previousRowPositions = Array.from({length: INITIAL_BLOCKS}, (_, i) => i + (GRID_WIDTH - INITIAL_BLOCKS) / 2); // Start centered
     grid.innerHTML = '';
     grid.style.bottom = '0px';
+    document.getElementById('game-container').style.backgroundPositionY = '0px';
     scoreElement.textContent = `Score: ${score}`;
     messageElement.style.display = 'none';
     highScoreInputElement.style.display = 'none';
@@ -68,11 +69,16 @@ function startLevel() {
     grid.appendChild(row);
     
     // Shift camera if needed
-    const containerHeight = document.getElementById('game-container').clientHeight;
+    const gameContainer = document.getElementById('game-container');
+    const containerHeight = gameContainer.clientHeight;
     const thresholdRows = Math.floor((containerHeight * 2/3) / ROW_HEIGHT_PX);
     
     if (currentLevel > thresholdRows) {
-        grid.style.bottom = `-${(currentLevel - thresholdRows) * ROW_HEIGHT_PX}px`;
+        const offset = (currentLevel - thresholdRows) * ROW_HEIGHT_PX;
+        grid.style.bottom = `-${offset}px`;
+        gameContainer.style.backgroundPositionY = `${offset}px`;
+    } else {
+        gameContainer.style.backgroundPositionY = '0px';
     }
 
     clearInterval(interval);
