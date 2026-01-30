@@ -143,8 +143,16 @@ function stack() {
     scoreElement.textContent = `Score: ${score}`;
     
     // Increase speed faster each time
-    if (speed > 40) speed -= 10;
-    else if (speed > 20) speed -= 2;
+    let speedIncrement = 10;
+    if (speed <= 40) speedIncrement = 2;
+
+    if (score > 14) {
+        speedIncrement /= 2;
+    }
+
+    if (speed > 20) {
+        speed -= speedIncrement;
+    }
     
     startLevel();
 }

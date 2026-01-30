@@ -66,6 +66,11 @@ body {
     top: 10px;
     left: 10px;
     font-size: 50px;
+    text-shadow: 
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000;
 }
 
 #message, #high-score-input, #scoreboard {
@@ -75,7 +80,7 @@ body {
     transform: translate(-50%, -50%);
     text-align: center;
     font-size: 30px;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 139, 185, 0.85);
     padding: 20px;
     border-radius: 10px;
     display: none;
