@@ -6,6 +6,14 @@ const playerNameInput = document.getElementById('player-name');
 const saveScoreButton = document.getElementById('save-score');
 const scoreboardElement = document.getElementById('scoreboard');
 const highScoresList = document.getElementById('high-scores-list');
+const startScreenElement = document.getElementById('start-screen');
+const startButton = document.getElementById('start-button');
+
+const bgMusic = new Audio('assets/sound/bg_music.mp3');
+bgMusic.loop = true;
+const end = new Audio('assets/sound/end.mp3');
+const tap = new Audio('assets/sound/tap.mp3');
+
 
 const GRID_WIDTH = 10; // 10 columns
 const BLOCK_WIDTH_PX = 52.5;
@@ -16,7 +24,7 @@ let currentLevel = 0;
 let currentWidth = INITIAL_BLOCKS;
 let currentPos = 0;
 let direction = 1;
-let gameActive = true;
+let gameActive = false;
 let score = 0;
 let speed = 200;
 let interval;
@@ -36,7 +44,13 @@ function init() {
     messageElement.style.display = 'none';
     highScoreInputElement.style.display = 'none';
     scoreboardElement.style.display = 'none';
-    
+    startScreenElement.style.display = 'none';
+
+    // Handle music and sound on first interaction
+    if (bgMusic.paused) {
+        bgMusic.play().catch(error => console.error("Audio play failed:", error));
+    }
+
     // Create first static row
     createStaticRow(previousRowPositions);
     
@@ -160,6 +174,7 @@ function stack() {
 function gameOver() {
     gameActive = false;
     clearInterval(interval);
+    end.play();
     
     const highScores = getHighScores();
     const isHighScore = highScores.length < 5 || score > highScores[highScores.length - 1].score;
@@ -211,6 +226,10 @@ saveScoreButton.addEventListener('click', () => {
     showScoreboard();
 });
 
+startButton.addEventListener('click', () => {
+    init();
+});
+
 playerNameInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
         saveScoreButton.click();
@@ -220,9 +239,13 @@ playerNameInput.addEventListener('keydown', (e) => {
 
 window.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
+        tap.currentTime = 0;
+        tap.play().catch(error => console.error("Audio play failed:", error));
         if (gameActive) {
             stack();
         } else if (scoreboardElement.style.display === 'block' || messageElement.style.display === 'block') {
+            init();
+        } else if (startScreenElement.style.display === 'block') {
             init();
         }
     }
@@ -231,6 +254,8 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('click', (e) => {
     // Don't restart if clicking inside the high score input
     if (highScoreInputElement.contains(e.target)) return;
+    // Don't restart if clicking the start button (it has its own listener)
+    if (e.target === startButton) return;
 
     if (gameActive) {
         stack();
@@ -239,4 +264,5 @@ window.addEventListener('click', (e) => {
     }
 });
 
-init();
+// Removed redundant init() call. Game starts from Start Button or Space.
+// init();

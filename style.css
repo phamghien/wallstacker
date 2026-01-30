@@ -73,7 +73,7 @@ body {
          2px  2px 0 #000;
 }
 
-#message, #high-score-input, #scoreboard {
+#message, #high-score-input, #scoreboard, #start-screen {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -88,27 +88,22 @@ body {
     width: 250px;
 }
 
-#high-scores-list {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0;
-    text-align: left;
+#start-screen {
+    display: block; /* Show initially */
 }
 
-#high-scores-list li {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    border-bottom: 1px solid #444;
-}
-
-#player-name {
-    padding: 5px;
-    width: 150px;
-    margin-bottom: 10px;
-}
-
-#save-score {
-    padding: 5px 15px;
+#start-button, #save-score {
+    padding: 10px 20px;
+    font-size: 20px;
+    font-family: 'PixelGame', Arial, sans-serif;
+    background-color: #19ce80;
+    color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    margin-top: 10px;
+}
+
+#start-button:hover, #save-score:hover {
+    background-color: #0e8753;
 }
