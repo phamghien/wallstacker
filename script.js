@@ -209,7 +209,7 @@ function showScoreboard() {
     } else {
         highScores.forEach(entry => {
             const li = document.createElement('li');
-            li.innerHTML = `<span>${entry.name}</span><span>${entry.score}</span>`;
+            li.innerHTML = `<span class="player-name-display">${entry.name}</span><span class="player-score-display">${entry.score}</span>`;
             highScoresList.appendChild(li);
         });
     }

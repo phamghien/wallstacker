@@ -12,7 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #222;
+    background-color: #000000;
     color: white;
     font-family: 'PixelGame', Arial, sans-serif;
     overflow: hidden;
@@ -106,4 +106,39 @@ body {
 
 #start-button:hover, #save-score:hover {
     background-color: #0e8753;
+}
+
+#high-scores-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+#high-scores-list li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    margin: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#player-name {
+    width: 80%;
+    padding: 5px;
+    font-size: 18px;
+    font-family: 'PixelGame', Arial, sans-serif;
+    margin-bottom: 10px;
+}
+
+.player-name-display {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 150px;
+}
+
+.player-score-display {
+    text-align: right;
+    font-weight: bold;
 }
