@@ -62,7 +62,7 @@ body {
 .block {
     width: 52.5px;
     height: 90px;
-    background-image: url('/assets/sage_block.png');
+    background-image: url('/assets/sage_block.PNG');
     background-size: cover;
     background-position: center;
     border: 1px solid #222;
